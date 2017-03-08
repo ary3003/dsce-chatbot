@@ -54,7 +54,7 @@ def messaging_events(payload):
   messaging_events = data["entry"][0]["messaging"]
   for event in messaging_events:
       if "message" in event and  "text" in event["message"]:
-        yield every_event["sender"]["id"], every_event["message"]["text"].encode('unicode_escape')
+        yield event["sender"]["id"], event["message"]["text"].encode('unicode_escape')
 
 
 def function(token, text):
