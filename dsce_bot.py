@@ -49,68 +49,13 @@ def messaging_events(payload):
   for event in messaging_events:
       if "message" in event and  "text" in event["message"]:
         yield event["sender"]["id"], event["message"]["text"].encode('unicode_escape')
-      
-
-
-def function(token, text):
-  r = requests.post("https://graph.facebook.com/v2.6/me/messages?access_token=%s"%token1,
-      data = json.dumps({
-        "recipient": {"id": user1},
-        "message": {
-        "text": text.encode('unicode_escape')},
-        }),
-    headers={'Content-type': 'application/json'})
-  if r.status_code != requests.codes.ok:
-    print r.text
+      #else:
         
-  
-"""
-def postback_events(payload):
-  data = json.loads(payload)
-  postback_events = data["entry"][0]["postback"]
-  for event in postback_events:
-    yield postback["postback"]["payload"]
-  
 
-def postback_received(token1, postback):
-  r = requests.post("https://graph.facebook.com/v2.6/me/messages?access_token=%s"%token1,
-      data = json.dumps({
-        "recipient": {"id": user1},
-        "message": {
-        "text": "You can ask: ",
-        "quick_replies":[
-          {
-            "content_type":"text",
-            "title":"Option1",
-            "payload":"OPTION1_PAYLOAD"
-            },
-            {
-              "content_type":"text",
-              "title":"Option2",
-              "payload":"OPTION2_PAYLOAD"
-            }
-          ]
-        },
-          "postback": {
-          "payload": "GET_STARTED_PAYLOAD"
-          }
-          
-        
-        }),
-    headers={'Content-type': 'application/json'})
-  if r.status_code != requests.codes.ok:
-    print r.text
-
-    """
 
     
                       
-          
-        
-    
-    
-
-def quick_reply(access, user, text1):
+def quick_reply(access, user, text):
   r = requests.post("https://graph.facebook.com/v2.6/me/messages?access_token=%s"%access,
     data=json.dumps({
       "recipient": {"id": user},
