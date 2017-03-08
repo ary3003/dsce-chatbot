@@ -23,11 +23,11 @@ def handle_messages():
   print "Handling Messages"
   payload = request.get_data()
   print payload
-  for sender, message, postback in messaging_events(payload):
+  for sender, message in messaging_events(payload):
     print "Incoming from %s: %s" % (sender, message)
-    print "Payload is %s" % postback
-    if postback == "GET_STARTED_PAYLOAD":
-      postback_received(PAT, sender)
+   # print "Payload is %s" % postback
+    #if postback == "GET_STARTED_PAYLOAD":
+     # postback_received(PAT, sender)
     if message == "What can I ask you?":
       quick_reply(PAT, sender, message)
     else:
@@ -44,11 +44,11 @@ def messaging_events(payload):
   messaging_events = data["entry"][0]["messaging"]
   for event in messaging_events:
     #if "message" in event and "text" in event["message"]:
-    yield event["sender"]["id"], event["message"]["text"].encode('unicode_escape'), event["postback"]["payload"]
+    yield event["sender"]["id"], event["message"]["text"].encode('unicode_escape') # event["postback"]["payload"]
     #else:
      # yield event["sender"]["id"], "I can't echo this"
 
-def postback_received(token1, user1):
+"""def postback_received(token1, user1):
   r = requests.post("https://graph.facebook.com/v2.6/me/messages?access_token=%s"%token1,
       data = json.dumps({
         "recipient": {"id": user1},
@@ -76,6 +76,8 @@ def postback_received(token1, user1):
     headers={'Content-type': 'application/json'})
   if r.status_code != requests.codes.ok:
     print r.text
+
+    """
                       
           
         
