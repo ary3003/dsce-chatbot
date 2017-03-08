@@ -1,6 +1,9 @@
 from flask import Flask, request
 import json
 import requests
+import os
+from sys import argv
+from wit import Wit
 
 app = Flask(__name__)
 
