@@ -79,9 +79,9 @@ def send_message(token, recipient, text):
         "text": text.encode("unicode_escape")+"repeat",
         "buttons":[
           {
-            "type":"postback",
-            "title":"Bookmark Item",
-            "payload":"DEVELOPER_DEFINED_PAYLOAD"
+            "type":"phone_number",
+            "title":"Call our Admission department",
+            "payload":"+919972971606"
             }
           ]
         }
