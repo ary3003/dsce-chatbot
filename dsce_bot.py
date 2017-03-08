@@ -23,13 +23,18 @@ def handle_messages():
   print "Handling Messages"
   payload = request.get_data()
   print payload
-  for sender, message in messaging_events(payload):
+  for sender, message, postback in messaging_events(payload):
     print "Incoming from %s: %s" % (sender, message)
+    print "Payload is %s" % postback
+    if postback == "GET_STARTED_PAYLOAD":
+      postback_received(PAT, sender)
     if message == "What can I ask you?":
       quick_reply(PAT, sender, message)
     else:
       send_message(PAT, sender, message)
   return "ok"
+
+      
 
 def messaging_events(payload):
   """Generate tuples of (sender_id, message_text) from the
@@ -42,6 +47,41 @@ def messaging_events(payload):
     yield event["sender"]["id"], event["message"]["text"].encode('unicode_escape')
     #else:
      # yield event["sender"]["id"], "I can't echo this"
+
+def postback_received(token1, user1):
+  r = requests.post("https://graph.facebook.com/v2.6/me/messages?access_token=%s"%token1,
+      data = json.dumps({
+        "recipient": {"id": user1},
+        "message": {
+        "text": "You can ask: ",
+        "quick_replies":[
+          {
+            "content_type":"text",
+            "title":"Option1",
+            "payload":"DEVELOPER_DEFINED_PAYLOAD"
+            },
+            {
+              "content_type":"text",
+              "title":"Option2",
+              "payload":"DEVELOPER_DEFINED_PAYLOAD"
+            }
+          ]
+        },
+          "postback": {
+          "payload": "GET_STARTED_PAYLOAD"
+          }
+          
+        
+        }),
+    headers={'Content-type': 'application/json'})
+  if r.status_code != requests.codes.ok:
+    print r.text
+                      
+          
+        
+    
+    
+
 def quick_reply(access, user, text1):
   r = requests.post("https://graph.facebook.com/v2.6/me/messages?access_token=%s"%access,
     data=json.dumps({
