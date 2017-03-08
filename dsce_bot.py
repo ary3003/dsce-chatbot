@@ -41,15 +41,14 @@ def messaging_events(payload):
      # yield event["sender"]["id"], "I can't echo this"
 
 
-def send_message(token, recipient, text):
+def send_message(token, recipient, data):
   """Send the message text to recipient with id recipient.
   """
 
-  r = requests.post("https://graph.facebook.com/v2.6/me/messages",
-    params={"access_token": token},
+  r = requests.post("https://graph.facebook.com/v2.6/me/messages?access_token=%s"token,
     data=json.dumps({
       "recipient": {"id": recipient},
-      "message": {"text": text.decode('unicode_escape'),
+      "message": {"text": "Choose",
                   "quick_replies":[
                     {
                       "content_type":"text",
