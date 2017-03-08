@@ -7,6 +7,9 @@ from wit import Wit
 
 app = Flask(__name__)
 
+WIT_TOKEN = os.environ.get('3CBB7JHIEZC66HBN2Y4D56CU6EWCCEQC')
+FB_VERIFY_TOKEN = "my_voice_is_my_password_verify_me"
+
 # This needs to be filled with the Page Access Token that will be provided
 # by the Facebook App that will be created.
 PAT = 'EAACVBMhfty8BANvGO7uX6JUgu2b42dbDMmiu6dDumN6VUZCiILyXFQy1cbEcaPdAomAdEPPeXmuOLD2OjnNaq25wIMzcvasfwols5ZAsGTLx7ZBRZBFlh1lS8x2rIbaMZB28l9U1Bu8bZB7ZCgsUpNfYCZCQZC9UZC3CVoftfAHoe8zgZDZD'
@@ -35,7 +38,11 @@ def handle_messages():
       quick_reply(PAT, sender, message)
     else:
       send_message(PAT, sender, message)
+  for postback in postback_events(payload):
+    if postback == "GET_STARTED_PAYLOAD":
+      postback_received(PAT, postback)
   return "ok"
+
 
       
 
@@ -50,8 +57,14 @@ def messaging_events(payload):
     yield event["sender"]["id"], event["message"]["text"].encode('unicode_escape') # event["postback"]["payload"]
     #else:
      # yield event["sender"]["id"], "I can't echo this"
+def postback_events(payload):
+  data = json.loads(payload)
+  postback_events = data["entry"][0]["postback"]
+  for event in postback_events:
+    yield postback["postback"]["payload"]
+  
 
-"""def postback_received(token1, user1):
+def postback_received(token1, postback):
   r = requests.post("https://graph.facebook.com/v2.6/me/messages?access_token=%s"%token1,
       data = json.dumps({
         "recipient": {"id": user1},
@@ -80,7 +93,7 @@ def messaging_events(payload):
   if r.status_code != requests.codes.ok:
     print r.text
 
-    """
+    
                       
           
         
