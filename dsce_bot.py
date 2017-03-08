@@ -76,16 +76,21 @@ def send_message(token, recipient, text):
     data=json.dumps({
       "recipient": {"id": recipient},
       "message": {
-        "text": text.encode("unicode_escape")+"repeat",
-        "buttons":[
-          {
-            "type":"phone_number",
-            "title":"Call our Admission department",
-            "payload":"+919972971606"
-            }
-          ]
-        }
-      }),
+        "attachment":{
+          "type":"template",
+             "payload":{
+               "template_type":"button",
+               "text":"Need further assistance? Talk to our representative",
+               "buttons":[
+                 {
+                   "type":"phone_number",
+                   "title":"Call our Admission department",
+                   "payload":"+919972971606"
+                   }
+                 ]
+
+               }
+          }),
     headers={'Content-type': 'application/json'})
   if r.status_code != requests.codes.ok:
     print r.text
