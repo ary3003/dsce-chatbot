@@ -9,6 +9,7 @@ app = Flask(__name__)
 
 WIT_TOKEN = os.environ.get('3CBB7JHIEZC66HBN2Y4D56CU6EWCCEQC')
 FB_VERIFY_TOKEN = "my_voice_is_my_password_verify_me"
+client = Wit(access_token=WIT_TOKEN, actions = actions)
 
 # This needs to be filled with the Page Access Token that will be provided
 # by the Facebook App that will be created.
@@ -94,7 +95,7 @@ actions = {
 
   }
 
-client = Wit(access_token=WIT_TOKEN, actions = actions)
+
 
  
 
