@@ -57,7 +57,7 @@ def messaging_events(payload):
   for event in events:
     pageID = event["id"]
 
-    for every_event["messaging"] in event:
+    for every_event in event:
       if "message" in every_event["messaging"] and  "text" in every_event["messaging"]:
         yield every_event["sender"]["id"], every_event["message"]["text"].encode('unicode_escape')
       elif "postback" in every_event["messaging"]:
