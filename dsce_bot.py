@@ -29,18 +29,18 @@ def handle_messages():
   print "Handling Messages"
   payload = request.get_data()
   print payload
-  for sender, message in messaging_events(payload):
-    print "Incoming from %s: %s" % (sender, message)
-   # print "Payload is %s" % postback
-    #if postback == "GET_STARTED_PAYLOAD":
-     # postback_received(PAT, sender)
-    if message == "What can I ask you?":
-      quick_reply(PAT, sender, message)
-    else:
-      send_message(PAT, sender, message)
-  #for postback in postback_events(payload):
-   # if postback == "GET_STARTED_PAYLOAD":
-    #  postback_received(PAT, postback)
+  for payload_events in messaging_events(payload):
+    if sender in payload_events and message in payload_events:
+      print "Incoming from %s: %s" % (sender, message)
+      if message == "What can I ask you?":
+        quick_reply(PAT, sender, message)
+      else:
+        send_message(PAT, sender, message)
+    if quick_reply in payload_events:
+      if quick_reply == "OPTION1_PAYLOAD":
+        function(PAT, sender)
+      
+      
   return "ok"
 
 
@@ -55,14 +55,16 @@ def messaging_events(payload):
   for event in messaging_events:
       if "message" in event and  "text" in event["message"]:
         yield event["sender"]["id"], event["message"]["text"].encode('unicode_escape')
+      if "payload" in event['message']['quick_reply']:
+        yield event['quick_reply']['payload']
 
 
-def function(token, text):
+def function(token, user):
   r = requests.post("https://graph.facebook.com/v2.6/me/messages?access_token=%s"%token1,
       data = json.dumps({
-        "recipient": {"id": user1},
+        "recipient": {"id": user},
         "message": {
-        "text": text.encode('unicode_escape')},
+        "text": "You selected OPTION 1"},
         }),
     headers={'Content-type': 'application/json'})
   if r.status_code != requests.codes.ok:
