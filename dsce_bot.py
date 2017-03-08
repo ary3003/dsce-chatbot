@@ -58,8 +58,8 @@ def send_message(token, recipient, text):
                     {
                       "content_type":"text",
                       "title":"Option2"
-                      }]}
-    }),
+                      }]
+    }}),
     headers={'Content-type': 'application/json'})
   if r.status_code != requests.codes.ok:
     print r.text
