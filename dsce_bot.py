@@ -49,9 +49,9 @@ def messaging_events(payload):
   for event in messaging_events:
       if "message" in event and  "text" in event["message"]:
         yield event["sender"]["id"], event["message"]["text"].encode('unicode_escape')
-      if "payload" in event['message']['quick_reply']:
-        yield event['quick_reply']['payload']
-
+ #     else:
+        #
+        
 
 def function(token, user):
   r = requests.post("https://graph.facebook.com/v2.6/me/messages?access_token=%s"%token1,
