@@ -30,14 +30,16 @@ def handle_messages():
   payload = request.get_data()
   print payload
   for payload_events in messaging_events(payload):
-    if sender in payload_events and message in payload_events:
-      print "Incoming from %s: %s" % (sender, message)
-      if message == "What can I ask you?":
-        quick_reply(PAT, sender, message)
-      else:
+    sender = payload_events["sender"]
+    message = payload_events['message']
+    quick_reply = payload_events['quick_reply']
+    print "Incoming from %s: %s" % (sender, message)
+    if message == "What can I ask you?":
+      quick_reply(PAT, sender, message)
+    else:
         send_message(PAT, sender, message)
-    if quick_reply in payload_events:
-      if quick_reply == "OPTION1_PAYLOAD":
+        
+    if quick_reply['payload'] == "OPTION1_PAYLOAD":
         function(PAT, sender)
       
       
