@@ -90,7 +90,9 @@ def send_message(token, recipient, text):
                  ]
 
                }
-          }),
+          }
+        }
+      }),
     headers={'Content-type': 'application/json'})
   if r.status_code != requests.codes.ok:
     print r.text
