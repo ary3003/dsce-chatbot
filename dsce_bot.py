@@ -34,7 +34,7 @@ def handle_messages():
     if message == "What can I ask you?":
       quick_reply(PAT, sender, message)
     else:
-        send_message(PAT, sender, message)
+      send_message(PAT, sender, message)
   return "ok"
 
 
