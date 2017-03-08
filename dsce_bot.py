@@ -35,11 +35,6 @@ def handle_messages():
       quick_reply(PAT, sender, message)
     else:
         send_message(PAT, sender, message)
-        
-    if quick_reply['payload'] == "OPTION1_PAYLOAD":
-        function(PAT, sender)
-      
-      
   return "ok"
 
 
