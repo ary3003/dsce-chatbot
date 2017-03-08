@@ -29,14 +29,12 @@ def handle_messages():
   print "Handling Messages"
   payload = request.get_data()
   print payload
-  for sender, message, postback in messaging_events(payload):
+  for sender, message in messaging_events(payload):
     print "Incoming from %s: %s" % (sender, message)
    # print "Payload is %s" % postback
     #if postback == "GET_STARTED_PAYLOAD":
      # postback_received(PAT, sender)
-    if postback == "OPTION1_PAYLOAD":
-      function(PAT, postback)
-    elif message == "What can I ask you?":
+    if message == "What can I ask you?":
       quick_reply(PAT, sender, message)
     else:
       send_message(PAT, sender, message)
