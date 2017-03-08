@@ -53,7 +53,7 @@ def messaging_events(payload):
         #
         
 
-def function(token, user):
+"""def function(token, user):
   r = requests.post("https://graph.facebook.com/v2.6/me/messages?access_token=%s"%token1,
       data = json.dumps({
         "recipient": {"id": user},
@@ -65,7 +65,7 @@ def function(token, user):
     print r.text
         
   
-"""
+
 def postback_events(payload):
   data = json.loads(payload)
   postback_events = data["entry"][0]["postback"]
