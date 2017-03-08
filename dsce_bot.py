@@ -38,9 +38,9 @@ def handle_messages():
       quick_reply(PAT, sender, message)
     else:
       send_message(PAT, sender, message)
-  for postback in postback_events(payload):
-    if postback == "GET_STARTED_PAYLOAD":
-      postback_received(PAT, postback)
+  #for postback in postback_events(payload):
+   # if postback == "GET_STARTED_PAYLOAD":
+    #  postback_received(PAT, postback)
   return "ok"
 
 
@@ -57,6 +57,8 @@ def messaging_events(payload):
     yield event["sender"]["id"], event["message"]["text"].encode('unicode_escape') # event["postback"]["payload"]
     #else:
      # yield event["sender"]["id"], "I can't echo this"
+
+"""
 def postback_events(payload):
   data = json.loads(payload)
   postback_events = data["entry"][0]["postback"]
@@ -92,6 +94,8 @@ def postback_received(token1, postback):
     headers={'Content-type': 'application/json'})
   if r.status_code != requests.codes.ok:
     print r.text
+
+    """
 
     
                       
