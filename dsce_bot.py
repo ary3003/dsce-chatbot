@@ -29,10 +29,7 @@ def handle_messages():
   print "Handling Messages"
   payload = request.get_data()
   print payload
-  for payload_events in messaging_events(payload):
-    sender = payload_events["sender"]
-    message = payload_events['message']
-    quick_reply = payload_events['quick_reply']
+  for sender, message in messaging_events(payload):
     print "Incoming from %s: %s" % (sender, message)
     if message == "What can I ask you?":
       quick_reply(PAT, sender, message)
