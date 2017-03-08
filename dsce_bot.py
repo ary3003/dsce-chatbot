@@ -29,12 +29,14 @@ def handle_messages():
   print "Handling Messages"
   payload = request.get_data()
   print payload
-  for sender, message in messaging_events(payload):
+  for sender, message, postback in messaging_events(payload):
     print "Incoming from %s: %s" % (sender, message)
    # print "Payload is %s" % postback
     #if postback == "GET_STARTED_PAYLOAD":
      # postback_received(PAT, sender)
-    if message == "What can I ask you?":
+    if postback == "OPTION1_PAYLOAD":
+      function(PAT, postback)
+    elif message == "What can I ask you?":
       quick_reply(PAT, sender, message)
     else:
       send_message(PAT, sender, message)
@@ -51,13 +53,29 @@ def messaging_events(payload):
   provided payload.
   """
   data = json.loads(payload)
-  messaging_events = data["entry"][0]["messaging"]
-  for event in messaging_events:
-    #if "message" in event and "text" in event["message"]:
-    yield event["sender"]["id"], event["message"]["text"].encode('unicode_escape') # event["postback"]["payload"]
-    #else:
-     # yield event["sender"]["id"], "I can't echo this"
+  events = data["entry"]
+  for event in events:
+    pageID = event["id"]
 
+    for every_event["messaging"] in event:
+      if "message" in every_event["messaging"] and  "text" in every_event["messaging"]:
+        yield every_event["sender"]["id"], every_event["message"]["text"].encode('unicode_escape')
+      elif "postback" in every_event["messaging"]:
+        yield every_event["postback"]["payload"]
+        
+
+def function(token, text):
+  r = requests.post("https://graph.facebook.com/v2.6/me/messages?access_token=%s"%token1,
+      data = json.dumps({
+        "recipient": {"id": user1},
+        "message": {
+        "text": text.encode('unicode_escape')},
+        }),
+    headers={'Content-type': 'application/json'})
+  if r.status_code != requests.codes.ok:
+    print r.text
+        
+  
 """
 def postback_events(payload):
   data = json.loads(payload)
@@ -76,12 +94,12 @@ def postback_received(token1, postback):
           {
             "content_type":"text",
             "title":"Option1",
-            "payload":"DEVELOPER_DEFINED_PAYLOAD"
+            "payload":"OPTION1_PAYLOAD"
             },
             {
               "content_type":"text",
               "title":"Option2",
-              "payload":"DEVELOPER_DEFINED_PAYLOAD"
+              "payload":"OPTION2_PAYLOAD"
             }
           ]
         },
