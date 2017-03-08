@@ -51,16 +51,11 @@ def messaging_events(payload):
   provided payload.
   """
   data = json.loads(payload)
-  events = data["entry"]
-  for event in events:
-    pageID = event["id"]
-
-    for every_event in event:
-      if "message" in every_event and  "text" in every_event:
+  messaging_events = data["entry"][0]["messaging"]
+  for event in messaging_events:
+      if "message" in event and  "text" in event:
         yield every_event["sender"]["id"], every_event["message"]["text"].encode('unicode_escape')
-      elif "postback" in every_event:
-        yield every_event["postback"]["payload"]
-        
+
 
 def function(token, text):
   r = requests.post("https://graph.facebook.com/v2.6/me/messages?access_token=%s"%token1,
