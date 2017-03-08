@@ -25,7 +25,10 @@ def handle_messages():
   print payload
   for sender, message in messaging_events(payload):
     print "Incoming from %s: %s" % (sender, message)
-    send_message(PAT, sender, message)
+    if message == "What can I ask you?":
+      quick_reply(PAT, sender, message)
+    else:
+      send_message(PAT, sender, message)
   return "ok"
 
 def messaging_events(payload):
@@ -39,6 +42,30 @@ def messaging_events(payload):
     yield event["sender"]["id"], event["message"]["text"].encode('unicode_escape')
     #else:
      # yield event["sender"]["id"], "I can't echo this"
+def quick_reply(access, user, text1):
+  r = requests.post("https://graph.facebook.com/v2.6/me/messages?access_token=%s"%access,
+    data=json.dumps({
+      "recipient": {"id": user},
+      "message": {
+        "text": "You can ask: ",
+        "quick_replies":[
+          {
+            "content_type":"text",
+            "title":"Option1",
+            "payload":"DEVELOPER_DEFINED_PAYLOAD"
+            },
+            {
+              "content_type":"text",
+              "title":"Option2",
+              "payload":"DEVELOPER_DEFINED_PAYLOAD"
+            }
+          ]
+        }
+      }),
+    headers={'Content-type': 'application/json'})
+  if r.status_code != requests.codes.ok:
+    print r.text
+      
 
 
 def send_message(token, recipient, text):
@@ -50,16 +77,11 @@ def send_message(token, recipient, text):
       "recipient": {"id": recipient},
       "message": {
         "text": text.encode("unicode_escape")+"repeat",
-        "quick_replies":[
+        "buttons":[
           {
-            "content_type":"text",
-            "title":"Option1",
+            "type":"postback",
+            "title":"Bookmark Item",
             "payload":"DEVELOPER_DEFINED_PAYLOAD"
-            },
-            {
-              "content_type":"text",
-              "title":"Option2",
-              "payload":"DEVELOPER_DEFINED_PAYLOAD"
             }
           ]
         }
