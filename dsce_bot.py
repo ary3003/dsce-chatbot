@@ -44,7 +44,7 @@ def handle_messages():
       send_message(PAT, sender, message)
 
   for payload_message in payload_events(payload):
-    if payload_message == "OPTION1_PAYLOAD":
+    if payload_message == "STUDENT_DSCE_PAYLOAD":
       greetings_reply(PAT, sender)
       
     
