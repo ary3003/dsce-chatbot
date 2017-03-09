@@ -32,10 +32,9 @@ def handle_messages():
   print "Handling Messages"
   payload = request.get_data()
   print payload
-  for sender, message in messaging_events(payload) and payload_message in payload_events(payload):
+  for sender, message in messaging_events(payload): 
     print "Incoming from %s: %s" % (sender, message)
-    if payload_message == "OPTION1_PAYLOAD":
-        greetings_reply(PAT, sender)
+     
     if message == greetings:
       greetings_reply(PAT, sender)
       
@@ -43,6 +42,12 @@ def handle_messages():
       quick_reply(PAT, sender, message)
     else:
       send_message(PAT, sender, message)
+
+  for payload_message in payload_events(payload):
+    if payload_message == "OPTION1_PAYLOAD":
+      greetings_reply(PAT, sender)
+      
+    
   
       
   return "ok"
