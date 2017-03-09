@@ -34,10 +34,7 @@ def handle_messages():
   print payload
   for sender, message in messaging_events(payload): 
     print "Incoming from %s: %s" % (sender, message)
-     
     if message == "What can I ask you?" or message == "Help":
-      greetings_reply(PAT, sender)
-    elif message == "Hi":
       quick_reply(PAT, sender, message)
     else:
       send_message(PAT, sender, message)
