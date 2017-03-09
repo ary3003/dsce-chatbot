@@ -9,6 +9,9 @@ app = Flask(__name__)
 
 WIT_TOKEN = os.environ.get('3CBB7JHIEZC66HBN2Y4D56CU6EWCCEQC')
 FB_VERIFY_TOKEN = "my_voice_is_my_password_verify_me"
+GRAPH_API = "https://graph.facebook.com/v2.6/me/messages?"
+
+greetings = "HI"
 
 # This needs to be filled with the Page Access Token that will be provided
 # by the Facebook App that will be created.
@@ -31,7 +34,10 @@ def handle_messages():
   print payload
   for sender, message in messaging_events(payload):
     print "Incoming from %s: %s" % (sender, message)
-    if message == "What can I ask you?":
+    if message == greetings:
+      greetings_reply(PAT, sender)
+      
+    elif message == "What can I ask you?" or "Help":
       quick_reply(PAT, sender, message)
     else:
       send_message(PAT, sender, message)
@@ -50,27 +56,40 @@ def messaging_events(payload):
       if "message" in event and  "text" in event["message"]:
         yield event["sender"]["id"], event["message"]["text"].encode('unicode_escape')
       #else:
+
+def greetings_reply(token, user):
+  qs = "access_token=%s"%token
+  r = requests.post(GRAPH_API+qs,
+    data=json.dumps({
+        "recipient": {"id": user},
+        "message": {
+          "text": "Hey there!"}
+                     }),
+    headers={'Content-type': 'application/json'})
+  if r.status_code != requests.code.ok:
+    print r.text
         
 
 
     
                       
 def quick_reply(access, user, text):
-  r = requests.post("https://graph.facebook.com/v2.6/me/messages?access_token=%s"%access,
+  qs = "access_token=%s"%access
+  r = requests.post(GRAPH_API + qs,
     data=json.dumps({
       "recipient": {"id": user},
       "message": {
-        "text": "You can ask: ",
+        "text": "Why don't you start by telling me something about youself? Who are you?",
         "quick_replies":[
           {
             "content_type":"text",
-            "title":"Option1",
-            "payload":"DEVELOPER_DEFINED_PAYLOAD"
+            "title":"Student of DSCE",
+            "payload":"STUDENT_DSCE_PAYLOAD"
             },
             {
               "content_type":"text",
-              "title":"Option2",
-              "payload":"DEVELOPER_DEFINED_PAYLOAD"
+              "title":"Outsider",
+              "payload":"OUTSIDER_PAYLOAD"
             }
           ]
         }
@@ -84,8 +103,8 @@ def quick_reply(access, user, text):
 def send_message(token, recipient, text):
   """Send the message text to recipient with id recipient.
   """
-
-  r = requests.post("https://graph.facebook.com/v2.6/me/messages?access_token=%s"%token,
+  qs = "access_token=%s"%token
+  r = requests.post(GRAPH_API+qs,
     data=json.dumps({
       "recipient": {"id": recipient},
       "message": {
