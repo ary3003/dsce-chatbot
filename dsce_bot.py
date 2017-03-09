@@ -32,8 +32,10 @@ def handle_messages():
   print "Handling Messages"
   payload = request.get_data()
   print payload
-  for sender, message in messaging_events(payload):
+  for sender, message in messaging_events(payload) and payload_message in payload_events(payload):
     print "Incoming from %s: %s" % (sender, message)
+    if payload_message == "OPTION1_PAYLOAD":
+        greetings_reply(PAT, sender)
     if message == greetings:
       greetings_reply(PAT, sender)
       
@@ -41,6 +43,8 @@ def handle_messages():
       quick_reply(PAT, sender, message)
     else:
       send_message(PAT, sender, message)
+  
+      
   return "ok"
 
 
@@ -51,11 +55,18 @@ def messaging_events(payload):
   provided payload.
   """
   data = json.loads(payload)
-  messaging_events = data["entry"][0]["messaging"]
-  for event in messaging_events:
+  messaging_events = data["entry"][0]["messaging"] # This returns a list
+  for event in messaging_events: #This returns a dict
       if "message" in event and  "text" in event["message"]:
         yield event["sender"]["id"], event["message"]["text"].encode('unicode_escape')
       #else:
+
+def payload_events(payload):
+  data = json.loads(payload)
+  payload_events = data["entry"][0]['messaging'][0]['message']['quick_reply']
+  if 'payload' in payload_events:
+    yield payload_events['payload']
+  
 
 def greetings_reply(token, user):
   qs = "access_token=%s"%token
