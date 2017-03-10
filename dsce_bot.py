@@ -34,11 +34,17 @@ def handle_messages():
   print payload
   for sender, message in messaging_events(payload): 
     print "Incoming from %s: %s" % (sender, message)
-    if message == "What can I ask you?" or message == "Help":
+    if message == "Get Started":
       quick_reply(PAT, sender, message)
     else:
       send_message(PAT, sender, message)
   return "ok"
+
+def handle_postback():
+  data = request.get_data()
+  for payload in payload_events(payload):
+    if payload == "GET_STARTED_PAYLOAD":
+      quick_reply(PAT)
 
 
       
@@ -56,7 +62,7 @@ def messaging_events(payload):
 
 def payload_events(payload):
   data = json.loads(payload)
-  payload_events = data["entry"][0]['messaging'][0]['message']['quick_reply']
+  payload_events = data["entry"][0]['messaging'][0]['postback']
   if 'payload' in payload_events:
     yield payload_events['payload']
   
@@ -83,17 +89,17 @@ def quick_reply(access, user, text):
     data=json.dumps({
       "recipient": {"id": user},
       "message": {
-        "text": "Why don't you start by telling me something about youself? Who are you?",
+        "text": "Choose your language.",
         "quick_replies":[
           {
             "content_type":"text",
-            "title":"Student of DSCE",
-            "payload":"STUDENT_DSCE_PAYLOAD"
+            "title":"English",
+            "payload":"English"
             },
             {
               "content_type":"text",
-              "title":"Outsider",
-              "payload":"OUTSIDER_PAYLOAD"
+              "title":"Hindi",
+              "payload":"Hindi"
             }
           ]
         }
