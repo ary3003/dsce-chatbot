@@ -32,12 +32,18 @@ def handle_messages():
   print "Handling Messages"
   payload = request.get_data()
   print payload
-  for sender, message in messaging_events(payload): 
-    print "Incoming from %s: %s" % (sender, message)
+  if payload['object'] == 'page':
+    for entry in payload['entry']:
+      if messages[0]:
+        message = messages[0]
+        sender = message['sender']['id']
+        text = message['message']['text']
+  #for sender, message in messaging_events(payload): 
+        print "Incoming from %s: %s" % (sender, text)
     if message == "Get Started":
-      quick_reply(PAT, sender, message)
+      quick_reply(PAT, sender, text)
     else:
-      send_message(PAT, sender, message)
+      send_message(PAT, sender, text)
   return "ok"
 
 def handle_postback():
