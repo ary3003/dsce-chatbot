@@ -30,7 +30,7 @@ def handle_verification():
 @app.route('/', methods=['POST'])
 def handle_messages():
   print "Handling Messages"
-  payload = request.get_data()
+  payload = request.get_data().json
   print payload
   if payload['object'] == 'page':
     for entry in payload['entry']:
