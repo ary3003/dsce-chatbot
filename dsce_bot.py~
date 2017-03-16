@@ -1,6 +1,6 @@
 import requests
 import json
-from flask import Flask
+from flask import Flask, request
 import apiai
 import logging
 import sys
