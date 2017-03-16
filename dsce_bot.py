@@ -72,8 +72,8 @@ def handle_incoming_messages():
     response_obj = json.loads(responsestr)
     if 'result' in response_obj:
         response = response_obj["result"]["fulfillment"]["speech"]
-        response2 = response_obj["result"]["fulfillment"]['replies']
-    reply(sender, response, response2)
+
+    reply(sender, response)
 
     return "ok"
 
