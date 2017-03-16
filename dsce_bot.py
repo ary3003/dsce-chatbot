@@ -30,7 +30,7 @@ def handle_verification():
 def reply(user_id, msg):
     data = {
         "recipient": {"id": user_id},
-        "message": {"text": msg,
+        "message": {    
                     "attachment": {
                                   "type": "template",
                                   "payload": {
