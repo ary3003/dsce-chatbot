@@ -30,7 +30,22 @@ def handle_verification():
 def reply(user_id, msg):
     data = {
         "recipient": {"id": user_id},
-        "message": {"text": msg}
+        "message": {"text": msg,
+                    "attachment": {
+                                  "type": "template",
+                                  "payload": {
+                                      "template_type": "button",
+                                      "text": "Need further assistance? Talk to our representative",
+                                      "buttons": [
+                                          {
+                                              "type": "phone_number",
+                                              "title": "Call our Admission department",
+                                              "payload": "+919972971606"
+                                          }
+                                      ]
+
+                                  }
+                              }}
     }
     resp = requests.post("https://graph.facebook.com/v2.6/me/messages?access_token=" + ACCESS_TOKEN, json=data)
     print(resp.content)
@@ -57,7 +72,8 @@ def handle_incoming_messages():
     response_obj = json.loads(responsestr)
     if 'result' in response_obj:
         response = response_obj["result"]["fulfillment"]["speech"]
-    reply(sender, response)
+        response2 = response_obj["result"]["fulfillment"]['replies']
+    reply(sender, response, response2)
 
     return "ok"
 
