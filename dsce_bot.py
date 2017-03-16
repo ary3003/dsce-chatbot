@@ -40,15 +40,16 @@ def reply(user_id, msg):
 def handle_incoming_messages():
     data = request.json
     sender = data['entry'][0]['messaging'][0]['sender']['id']
-    #message = data['entry'][0]['messaging'][0]['message']['text']
-    postback = data['entry'][0]['messaging'][0]['postback']['payload']
-    if(postback == 'GET_STARTED_PAYLOAD'):
-        reply(sender, postback)
+    message = data['entry'][0]['messaging'][0]['message']['text']
+   # postback = data['entry'][0]['messaging'][0]['postback']['payload']
+   # if(postback == 'GET_STARTED_PAYLOAD'):
+    #    reply(sender, postback)
+
 
     # prepare API.ai request
     req = ai.text_request()
     req.lang = 'en'  # optional, default value equal 'en'
-    req.query = postback
+    req.query = message
 
     # get response from API.ai
     api_response = req.getresponse()
@@ -56,7 +57,7 @@ def handle_incoming_messages():
     response_obj = json.loads(responsestr)
     if 'result' in response_obj:
         response = response_obj["result"]["fulfillment"]["speech"]
-    #reply(sender, response)
+    reply(sender, response)
 
     return "ok"
 
