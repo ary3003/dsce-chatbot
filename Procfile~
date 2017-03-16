@@ -1,1 +1,1 @@
-web: gunicorn dsce_bot:app --preload --workers 1
+web: gunicorn dsceChatbot:app --preload --workers 1
