@@ -40,7 +40,7 @@ def reply(user_id, msg):
 def handle_incoming_messages():
     data = request.json
     sender = data['entry'][0]['messaging'][0]['sender']['id']
-    message = data['entry'][0]['messaging'][0]['message']['text']
+    #message = data['entry'][0]['messaging'][0]['message']['text']
     postback = data['entry'][0]['messaging'][0]['postback']['payload']
     if(postback == 'GET_STARTED_PAYLOAD'):
         reply(sender, postback)
@@ -56,7 +56,7 @@ def handle_incoming_messages():
     response_obj = json.loads(responsestr)
     if 'result' in response_obj:
         response = response_obj["result"]["fulfillment"]["speech"]
-    reply(sender, response)
+    #reply(sender, response)
 
     return "ok"
 
