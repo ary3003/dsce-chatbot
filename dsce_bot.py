@@ -48,7 +48,7 @@ def handle_incoming_messages():
     # prepare API.ai request
     req = ai.text_request()
     req.lang = 'en'  # optional, default value equal 'en'
-    req.query = message
+    req.query = postback
 
     # get response from API.ai
     api_response = req.getresponse()
