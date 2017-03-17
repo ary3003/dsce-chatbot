@@ -35,31 +35,6 @@ def reply(user_id, msg):
     resp = requests.post("https://graph.facebook.com/v2.6/me/messages?access_token=" + ACCESS_TOKEN, json=data)
     print(resp.content)
 
-def reply2(user_id, text, replies):
-    data = {
-        "recipient":{"id": user_id},
-        "message": {
-            "text": text,
-                              "quick_replies": [
-                                  {
-                                      "content_type": "text",
-                                      "title": replies,
-                                      "payload": "English"
-                                  },
-                                  {
-                                      "content_type": "text",
-                                      "title": "Hindi",
-                                      "payload": "Hindi"
-                                  }
-                              ]
-
-
-
-        }
-    }
-    resp = requests.post("https://graph.facebook.com/v2.6/me/messages?access_token="+ ACCESS_TOKEN, json=data)
-    print(resp.content)
-
 
 @app.route('/', methods=['POST'])
 def handle_incoming_messages():
@@ -83,10 +58,6 @@ def handle_incoming_messages():
     if 'result' in response_obj:
         response = response_obj["result"]["fulfillment"]["speech"]
     reply(sender, response)
-    if 'responses' in response_obj:
-        response_replies = response_obj['responses'][0]['messages']
-        response_title = response_obj['responses'][1]['title'][0]
-    reply2(sender, response_replies, response_title)
 
     return "ok"
 
