@@ -52,14 +52,19 @@ def handle_incoming_messages():
     req.query = message
 
     # get response from API.ai
-    api_response = req.getresponse()
-    response_str = api_response.read().decode('utf-8')
-    response_obj = json.loads(response_str)
-    if 'result' in response_obj:
-        response = response_obj["result"]["fulfillment"]["speech"]
-    reply(sender, response)
+    if message == "Get Started":
+        api_response = req.getresponse()
+        response_str = api_response.read().decode('utf-8')
+        response_obj = json.loads(response_str)
+        if 'responses' in response_obj:
+            response_replies = response_obj['responses'][0]['messages']
+        reply(sender, response_replies)
 
     return "ok"
+
+    
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)
