@@ -5,7 +5,6 @@ import apiai
 import logging
 import sys
 
-
 ACCESS_TOKEN = 'EAACVBMhfty8BAEnEn1RZAuJFD202uuERpIfD9alerlK97MflZAmg8jqRUwZA0tPlv0ZA4J3gAdUEDYZClniPDaOqMauefq2F2kHmXjxgfKLsvzys3ITy4rkNZCci8pJ8E72Cm0F1gmnstbJwPHeJ9ZBtEFd8xnilPFq5medOMHgMwZDZD'
 
 CLIENT_ACCESS_TOKEN = 'e65e41471aeb417584138ea544ef3497'
@@ -15,6 +14,7 @@ ai = apiai.ApiAI(CLIENT_ACCESS_TOKEN)
 app = Flask(__name__)
 app.logger.addHandler(logging.StreamHandler(sys.stdout))
 app.logger.setLevel(logging.ERROR)
+
 
 @app.route('/', methods=['GET'])
 def handle_verification():
@@ -36,23 +36,26 @@ def reply(user_id, msg):
     print(resp.content)
 
 
-
-
-
 @app.route('/', methods=['POST'])
 def handle_incoming_messages():
     data = request.json
     sender = data['entry'][0]['messaging'][0]['sender']['id']
     message = data['entry'][0]['messaging'][0]['message']['text']
-   # postback = data['entry'][0]['messaging'][0]['postback']['payload']
-   # if(postback == 'GET_STARTED_PAYLOAD'):
-    #    reply(sender, postback)
 
-
-    # prepare API.ai request
+    # prepare API.ai request for text messages
     req = ai.text_request()
     req.lang = 'en'  # optional, default value equal 'en'
-    req.query = message
+    event = {"event":{
+      "name":"admission-event",
+      "data" :{
+          "user_name":"#custom_event.name"
+      }
+    }
+
+    }
+    req.query = event
+
+
 
     # get response from API.ai
     api_response = req.getresponse()
@@ -63,6 +66,7 @@ def handle_incoming_messages():
     reply(sender, response)
 
     return "ok"
+
 
 if __name__ == '__main__':
     app.run(debug=True)

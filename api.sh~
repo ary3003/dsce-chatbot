@@ -1,0 +1,1 @@
+curl -k -H "Authorization: Bearer 5c4035739fcc42aab39f0fd62a5cc575" "https://api.api.ai/v1/intents?v=20150910"
