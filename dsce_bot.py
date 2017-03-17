@@ -36,6 +36,9 @@ def reply(user_id, msg):
     print(resp.content)
 
 
+
+
+
 @app.route('/', methods=['POST'])
 def handle_incoming_messages():
     data = request.json
@@ -58,10 +61,6 @@ def handle_incoming_messages():
     if 'result' in response_obj:
         response = response_obj["result"]["fulfillment"]["speech"]
     reply(sender, response)
-    if 'responses' in response_obj:
-        response_replies = response_obj['responses'][0]['messages']
-        response_title = response_obj['responses'][1]['title'][0]
-    reply2(sender, response_replies, response_title)
 
     return "ok"
 
