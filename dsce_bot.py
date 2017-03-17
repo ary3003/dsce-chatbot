@@ -49,7 +49,7 @@ def handle_incoming_messages():
             "user_name": "#custom_event.name"
         }
     }
-
+    req = ai.event_request()
     req.lang = 'en'  # optional, default value equal 'en'
     req.event = event
 
