@@ -64,6 +64,10 @@ def handle_incoming_messages():
     data = request.json
     sender = data['entry'][0]['messaging'][0]['sender']['id']
     message = data['entry'][0]['messaging'][0]['message']['text']
+    if 'postback' in data['entry'][0]['messaging'][0]:
+        payload = data['entry'][0]['messaging'][0]['postback']['payload']
+        if payload == "get_started":
+            quick_reply(sender, "hi", ["1","2"])
 
     # prepare API.ai request for text messages
     req = ai.text_request()
@@ -81,10 +85,10 @@ def handle_incoming_messages():
             type1 = response_obj["result"]["fulfillment"]['messages'][1]["type"]
 
             if type1 == 2:
-              title = response_obj["result"]["fulfillment"]['messages'][1]["title"]
-              replies = response_obj["result"]["fulfillment"]['messages'][1]['replies']
-              print "Working! WOOHOO!"
-              quick_reply(sender, title, replies)
+                title = response_obj["result"]["fulfillment"]['messages'][1]["title"]
+                replies = response_obj["result"]["fulfillment"]['messages'][1]['replies']
+                print "Working! WOOHOO!"
+                quick_reply(sender, title, replies)
         except:
             print "inside except block"
             reply(sender, response)
