@@ -48,7 +48,7 @@ def quick_reply(user_id, msg):
                     "payload": "PAYLOAD1"
                 },
                 {
-                    "content-type": "text",
+                    "content_type": "text",
                     "title": "Rashi",
                     "payload": "PAYLOAD2"
                 }
