@@ -75,13 +75,13 @@ def handle_incoming_messages():
     response_str = api_response.read().decode('utf-8')
     response_obj = json.loads(response_str)
     if 'result' in response_obj:
-        type = response_obj["result"]["fulfillment"]['messages'][1]["type"]
-        response = response_obj["result"]["fulfillment"]['messages'][0]
-        reply(sender, response)
-        if type == 2:
-            title = response_obj["result"]["fulfillment"]['messages'][1]["title"]
-            replies = response_obj["result"]["fulfillment"]['messages'][1]['replies']
-            quick_reply(sender, title, replies)
+      #  type = response_obj["result"]["fulfillment"]['messages'][1]["type"]
+         response = response_obj["result"]["fulfillment"]['messages'][0]
+    reply(sender, response)
+    if type == 2:
+        title = response_obj["result"]["fulfillment"]['messages'][1]["title"]
+        replies = response_obj["result"]["fulfillment"]['messages'][1]['replies']
+        quick_reply(sender, title, replies)
 
 
 
