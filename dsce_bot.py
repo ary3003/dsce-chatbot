@@ -36,6 +36,29 @@ def reply(user_id, msg):
     print(resp.content)
 
 
+def quick_reply(user_id, title, reply1, reply2):
+    data1 = {
+        "recipient": {"id": user_id},
+        "message": {
+            "text": title,
+            "quick_replies": [
+                {
+                    "content_type": "text",
+                    "title": reply1,
+                    "payload": "PAYLOAD1"
+                },
+                {
+                    "content-type": "text",
+                    "title": reply2,
+                    "payload": "PAYLOAD2"
+                }
+            ]
+        }
+    }
+    resp1 = requests.post("https://graph.facebook.com/v2.6/me/messages?access_token=" + ACCESS_TOKEN, json=data1)
+    print(resp1.content)
+
+
 @app.route('/', methods=['POST'])
 def handle_incoming_messages():
     data = request.json
@@ -43,24 +66,26 @@ def handle_incoming_messages():
     message = data['entry'][0]['messaging'][0]['message']['text']
 
     # prepare API.ai request for text messages
-    event = { "event":{
-        "name": "admission-event",
-        "data": {
-            "name": "aryan"
-        }
-    }
-    }
     req = ai.text_request()
     req.lang = 'en'  # optional, default value equal 'en'
-    req.event = event
+    req.query = message
 
     # get response from API.ai
     api_response = req.getresponse()
     response_str = api_response.read().decode('utf-8')
     response_obj = json.loads(response_str)
     if 'result' in response_obj:
-        response = response_obj["result"]["fulfillment"]["speech"]
-    reply(sender, response)
+        type = response_obj["result"]["fulfillment"]['messages'][1]["type"]
+        response = response_obj["result"]["fulfillment"]['messages'][0]
+        if type == 2:
+            title = response_obj["result"]["fulfillment"]['messages'][1]["title"]
+            replies = response_obj["result"]["fulfillment"]['messages'][1]['replies']
+            for i in range(0, len(replies) - 1):
+                first_reply = replies[i - len(replies)]
+                second_reply = replies[i - (len(replies) - 1)]
+                quick_reply(sender, title, first_reply, second_reply)
+
+
 
     return "ok"
 
