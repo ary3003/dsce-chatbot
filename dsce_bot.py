@@ -43,13 +43,14 @@ def handle_incoming_messages():
     message = data['entry'][0]['messaging'][0]['message']['text']
 
     # prepare API.ai request for text messages
-    event = {
+    event = { "event":{
         "name": "admission-event",
         "data": {
-            "user_name": "#custom_event.name"
+            "name": "aryan"
         }
     }
-    req = ai.event_request()
+    }
+    req = ai.text_request()
     req.lang = 'en'  # optional, default value equal 'en'
     req.event = event
 
