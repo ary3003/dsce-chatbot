@@ -76,15 +76,15 @@ def handle_incoming_messages():
     response_obj = json.loads(response_str)
 
     if 'result' in response_obj:
-        #response = response_obj["result"]["fulfillment"]['speech']
+        response = response_obj["result"]["fulfillment"]['speech']
         type1 = response_obj["result"]["fulfillment"]['messages'][1]["type"]
         if type1 == 2:
             title = response_obj["result"]["fulfillment"]['messages'][1]["title"]
             replies = response_obj["result"]["fulfillment"]['messages'][1]['replies']
-
-
-        print "Working! WOOHOO!"
-        quick_reply(sender, title)
+            print "Working! WOOHOO!"
+            quick_reply(sender, title)
+        else:
+            reply(sender, response)
     return "ok"
 
 
