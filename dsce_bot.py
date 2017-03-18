@@ -36,20 +36,20 @@ def reply(user_id, msg):
     print(resp.content)
 
 
-def quick_reply(user_id, title, replies):
+def quick_reply(user_id, msg):
     data1 = {
         "recipient": {"id": user_id},
         "message": {
-            "text": title,
+            "text": msg,
             "quick_replies": [
                 {
                     "content_type": "text",
-                    "title": replies[0],
+                    "title": "Aryan",
                     "payload": "PAYLOAD1"
                 },
                 {
                     "content-type": "text",
-                    "title": replies[1],
+                    "title": "Rashi",
                     "payload": "PAYLOAD2"
                 }
             ]
@@ -77,12 +77,12 @@ def handle_incoming_messages():
     if 'result' in response_obj:
 
         response = response_obj["result"]["fulfillment"]['speech']
-        reply(sender, response)
+        '''reply(sender, response)
         type1 = response_obj["result"]["fulfillment"]['messages'][1]["type"]
         if type1 == 2:
             title = response_obj["result"]["fulfillment"]['messages'][1]["title"]
-            replies = response_obj["result"]["fulfillment"]['messages'][1]['replies']
-            quick_reply(sender, title, replies)
+            replies = response_obj["result"]["fulfillment"]['messages'][1]['replies']'''
+        quick_reply(sender, response)
 
     return "ok"
 
