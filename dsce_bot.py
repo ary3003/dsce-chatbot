@@ -44,12 +44,12 @@ def quick_reply(user_id, msg):
             "quick_replies": [
                 {
                     "content_type": "text",
-                    "title": replies[0],
+                    "title": "replies[0]",
                     "payload": "PAYLOAD1"
                 },
                 {
                     "content_type": "text",
-                    "title": replies[1],
+                    "title": "replies[1]",
                     "payload": "PAYLOAD2"
                 }
             ]
