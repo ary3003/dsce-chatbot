@@ -133,7 +133,7 @@ def handle_incoming_messages():
                 quick_reply(sender, title, replies)
             if type1 == 4:
                 #image_url = response_obj['result']['fulfillment']['messages'][1]['facebook']['attachment']['payload']['url']
-                reply_images(sender, "https://fi.wikipedia.org/wiki/Minna_Canth#/media/File:Minna_Canth.png")
+                reply_images(sender, "http://pngimg.com/uploads/grass/grass_PNG10866.png")
         except:
             print "inside except block"
             reply(sender, response)
