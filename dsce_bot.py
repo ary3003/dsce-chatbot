@@ -74,6 +74,7 @@ def handle_incoming_messages():
     api_response = req.getresponse()
     response_str = api_response.read().decode('utf-8')
     response_obj = json.loads(response_str)
+
     if 'result' in response_obj:
 
         response = response_obj["result"]["fulfillment"]['speech']
@@ -82,6 +83,7 @@ def handle_incoming_messages():
         if type1 == 2:
             title = response_obj["result"]["fulfillment"]['messages'][1]["title"]
             replies = response_obj["result"]["fulfillment"]['messages'][1]['replies']'''
+        print "Working! WOOHOO!"
         quick_reply(sender, response)
 
     return "ok"
