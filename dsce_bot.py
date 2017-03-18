@@ -79,12 +79,12 @@ def handle_incoming_messages():
 
         response = response_obj["result"]["fulfillment"]['speech']
 
-        type1 = response_obj["result"]["fulfillment"]['messages'][1]["type"]
-        if type1 == 2:
+        # type1 = response_obj["result"]["fulfillment"]['messages'][1]["type"]
+        '''if type1 == 2:
             title = response_obj["result"]["fulfillment"]['messages'][1]["title"]
             replies = response_obj["result"]["fulfillment"]['messages'][1]['replies']
             print "Working! WOOHOO!"
-            quick_reply(sender, title)
+            quick_reply(sender, title)'''
         reply(sender, response)
     return "ok"
 
