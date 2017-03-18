@@ -102,7 +102,6 @@ def reply_images(user_id, url):
     resp2 = requests.post("https://graph.facebook.com/v2.6/me/messages?access_token=" + ACCESS_TOKEN, json=data2)
     print(resp2.content)
 
-def
 
 
 @app.route('/', methods=['POST'])
