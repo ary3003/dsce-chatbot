@@ -84,9 +84,9 @@ def handle_incoming_messages():
             title = response_obj["result"]["fulfillment"]['messages'][1]["title"]
             replies = response_obj["result"]["fulfillment"]['messages'][1]['replies']
             '''
-        
+
         print "Working! WOOHOO!"
-        quick_reply(sender, title)
+        quick_reply(sender, response)
     return "ok"
 
 
