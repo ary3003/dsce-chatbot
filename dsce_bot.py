@@ -102,6 +102,8 @@ def reply_images(user_id, url):
     resp2 = requests.post("https://graph.facebook.com/v2.6/me/messages?access_token=" + ACCESS_TOKEN, json=data2)
     print(resp2.content)
 
+def
+
 
 @app.route('/', methods=['POST'])
 def handle_incoming_messages():
@@ -130,8 +132,8 @@ def handle_incoming_messages():
                 print "Working! WOOHOO!"
                 quick_reply(sender, title, replies)
             if type1 == 4:
-                image_url = response_obj['result']['fulfillment']['messages'][1]['facebook']['attachment']['payload']['url']
-                reply_images(sender, image_url)
+                #image_url = response_obj['result']['fulfillment']['messages'][1]['facebook']['attachment']['payload']['url']
+                reply_images(sender, "https://fi.wikipedia.org/wiki/Minna_Canth#/media/File:Minna_Canth.png")
         except:
             print "inside except block"
             reply(sender, response)
