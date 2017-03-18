@@ -129,6 +129,9 @@ def handle_incoming_messages():
                 replies = response_obj["result"]["fulfillment"]['messages'][1]['replies']
                 print "Working! WOOHOO!"
                 quick_reply(sender, title, replies)
+            if type1 == 4:
+                image_url = response_obj['result']['fulfillment']['messages'][1]['facebook']['attachment']['payload']['url']
+                reply_images(sender, image_url)
         except:
             print "inside except block"
             reply(sender, response)
