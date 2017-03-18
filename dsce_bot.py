@@ -36,7 +36,7 @@ def reply(user_id, msg):
     print(resp.content)
 
 
-def quick_reply(user_id, title, replies):
+def quick_reply(user_id, msg, replies):
     data1 = {
         "recipient": {"id": user_id},
         "message": {
