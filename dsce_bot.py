@@ -55,6 +55,8 @@ def quick_reply(user_id, msg, replies):
                 ]
             }
     }
+    resp1 = requests.post("https://graph.facebook.com/v2.6/me/messages?access_token=" + ACCESS_TOKEN, json=data1)
+    print(resp1.content)
 
 
     """elif len(replies) == 3:
@@ -82,14 +84,14 @@ def quick_reply(user_id, msg, replies):
             }
         } """
 
-    resp1 = requests.post("https://graph.facebook.com/v2.6/me/messages?access_token=" + ACCESS_TOKEN, json=data1)
-    print(resp1.content)
+
 
 
 @app.route('/', methods=['POST'])
 def handle_incoming_messages():
     data = request.json
     sender = data['entry'][0]['messaging'][0]['sender']['id']
+    print "message working"
     message = data['entry'][0]['messaging'][0]['message']['text']
 
     # prepare API.ai request for text messages
