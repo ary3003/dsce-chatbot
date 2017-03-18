@@ -85,24 +85,6 @@ def quick_reply(user_id, msg, replies):
     print(resp1.content)
 
 
-def reply_images(user_id, url):
-    data2 = {
-        "recipient": {
-            "id": user_id
-        },
-        "message": {
-            "attachment": {
-                "type": "image",
-                "payload": {
-                    "url": url
-                }
-            }
-        }
-    }
-    resp2 = requests.post("https://graph.facebook.com/v2.6/me/messages?access_token=" + ACCESS_TOKEN, json=data2)
-    print(resp2.content)
-
-
 @app.route('/', methods=['POST'])
 def handle_incoming_messages():
     data = request.json
@@ -129,7 +111,7 @@ def handle_incoming_messages():
                 replies = response_obj["result"]["fulfillment"]['messages'][1]['replies']
                 print "Working! WOOHOO!"
                 quick_reply(sender, title, replies)
-            
+
         except:
             print "inside except block"
             reply(sender, response)
