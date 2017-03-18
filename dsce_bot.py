@@ -77,6 +77,7 @@ def handle_incoming_messages():
     if 'result' in response_obj:
         type = response_obj["result"]["fulfillment"]['messages'][1]["type"]
         response = response_obj["result"]["fulfillment"]['messages'][0]
+        reply(sender, response)
         if type == 2:
             title = response_obj["result"]["fulfillment"]['messages'][1]["title"]
             replies = response_obj["result"]["fulfillment"]['messages'][1]['replies']
