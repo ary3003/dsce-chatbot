@@ -77,13 +77,16 @@ def handle_incoming_messages():
 
     if 'result' in response_obj:
         response = response_obj["result"]["fulfillment"]['speech']
-        type1 = response_obj["result"]["fulfillment"]['messages'][1]["type"]
-        if type1 == 2:
-            title = response_obj["result"]["fulfillment"]['messages'][1]["title"]
-            replies = response_obj["result"]["fulfillment"]['messages'][1]['replies']
-            print "Working! WOOHOO!"
-            quick_reply(sender, title)
-        elif response_obj['result']['fulfillment']['messages'][0]['type'] == 0:
+        try:
+            type1 = response_obj["result"]["fulfillment"]['messages'][1]["type"]
+
+            if type1 == 2:
+              title = response_obj["result"]["fulfillment"]['messages'][1]["title"]
+              replies = response_obj["result"]["fulfillment"]['messages'][1]['replies']
+              print "Working! WOOHOO!"
+              quick_reply(sender, title)
+        except:
+            print "inside except block"
             reply(sender, response)
     return "ok"
 
