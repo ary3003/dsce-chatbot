@@ -83,7 +83,7 @@ def handle_incoming_messages():
             replies = response_obj["result"]["fulfillment"]['messages'][1]['replies']
             print "Working! WOOHOO!"
             quick_reply(sender, title)
-        else:
+        elif response_obj['result']['fulfillment']['messages'][0]['type'] == 0:
             reply(sender, response)
     return "ok"
 
