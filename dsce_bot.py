@@ -83,7 +83,7 @@ def quick_reply(user_id, msg, replies):
         }
     resp1 = requests.post("https://graph.facebook.com/v2.6/me/messages?access_token=" + ACCESS_TOKEN, json=data1)
     print(resp1.content)
-d
+
 
 @app.route('/', methods=['POST'])
 def handle_incoming_messages():
