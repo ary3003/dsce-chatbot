@@ -37,7 +37,9 @@ def reply(user_id, msg):
 
 
 def quick_reply(user_id, msg, replies):
-    data1 =  {
+
+    if len(replies) == 2:
+        data1 =  {
             "recipient": {"id": user_id},
             "message": {
                 "text": msg,
@@ -55,11 +57,10 @@ def quick_reply(user_id, msg, replies):
                 ]
             }
     }
-    resp1 = requests.post("https://graph.facebook.com/v2.6/me/messages?access_token=" + ACCESS_TOKEN, json=data1)
-    print(resp1.content)
 
 
-    """elif len(replies) == 3:
+
+    elif len(replies) == 3:
         data1 = {
             "recipient": {"id": user_id},
             "message": {
@@ -82,7 +83,9 @@ def quick_reply(user_id, msg, replies):
                     }
                 ]
             }
-        } """
+        }
+    resp1 = requests.post("https://graph.facebook.com/v2.6/me/messages?access_token=" + ACCESS_TOKEN, json=data1)
+    print(resp1.content)
 
 
 
