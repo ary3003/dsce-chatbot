@@ -104,6 +104,7 @@ def reply_images(user_id, url):
 
 
 
+
 @app.route('/', methods=['POST'])
 def handle_incoming_messages():
     data = request.json
@@ -130,6 +131,9 @@ def handle_incoming_messages():
                 replies = response_obj["result"]["fulfillment"]['messages'][1]['replies']
                 print "Working! WOOHOO!"
                 quick_reply(sender, title, replies)
+            if type1 == 4:
+                #image_url = response_obj['result']['fulfillment']['messages'][1]['facebook']['attachment']['payload']['url']
+                reply_images(sender, "http://pngimg.com/uploads/grass/grass_PNG10866.png")
         except:
             print "inside except block"
             reply(sender, response)
