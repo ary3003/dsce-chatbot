@@ -102,6 +102,33 @@ def reply_images(user_id, url):
     resp2 = requests.post("https://graph.facebook.com/v2.6/me/messages?access_token=" + ACCESS_TOKEN, json=data2)
     print(resp2.content)
 
+def button_template(user):
+    data3 = {
+        "recipient":{
+    "id": user
+        },
+    "message":{
+    "attachment":{
+      "type":"template",
+      "payload":{
+        "template_type":"button",
+        "text":"What do you want to do next?",
+        "buttons":[
+          {
+            "type":"web_url",
+            "url":"https://dayanandasagar.edu/dsce",
+            "title":"Show Website"
+          },
+          {
+            "type":"postback",
+            "title":"Start Chatting",
+            "payload":"start_chatting"
+          }
+        ]
+      }
+    }
+              }
+
 
 
 
@@ -131,9 +158,7 @@ def handle_incoming_messages():
                 replies = response_obj["result"]["fulfillment"]['messages'][1]['replies']
                 print "Working! WOOHOO!"
                 quick_reply(sender, title, replies)
-            if type1 == 4:
-                #image_url = response_obj['result']['fulfillment']['messages'][1]['facebook']['attachment']['payload']['url']
-                reply_images(sender, "http://pngimg.com/uploads/grass/grass_PNG10866.png")
+
         except:
             print "inside except block"
             reply(sender, response)
