@@ -83,9 +83,10 @@ def handle_incoming_messages():
         '''if type1 == 2:
             title = response_obj["result"]["fulfillment"]['messages'][1]["title"]
             replies = response_obj["result"]["fulfillment"]['messages'][1]['replies']
-            print "Working! WOOHOO!"
-            quick_reply(sender, title)'''
-        reply(sender, response)
+            '''
+        
+        print "Working! WOOHOO!"
+        quick_reply(sender, title)
     return "ok"
 
 
