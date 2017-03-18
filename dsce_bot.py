@@ -81,7 +81,11 @@ def quick_reply(user_id, msg, replies):
             }
         }
 
-    resp1 = requests.post("https://graph.facebook.com/v2.6/me/messages?access_token=" + ACCESS_TOKEN, json=data1)
+    else:
+        print "more than 3 options"
+
+    resp1 = request
+    s.post("https://graph.facebook.com/v2.6/me/messages?access_token=" + ACCESS_TOKEN, json=data1)
     print(resp1.content)
 
 
