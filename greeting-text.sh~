@@ -1,0 +1,12 @@
+curl -X POST -H "Content-Type: application/json" -d '{
+  "greeting":[
+    {
+      "locale":"default",
+      "text":"Hello {{user_first_name}}!"
+    },
+     {
+	"locale":"default",
+	"text":"Welcome! I am fify, the one stop solution to everything DSCE. Tap or type Get Started to get going."
+  ] 
+}'  "https://graph.facebook.com/v2.6/me/messenger_profile?access_token=EAACVBMhfty8BANvGO7uX6JUgu2b42dbDMmiu6dDumN6VUZCiILyXFQy1cbEcaPdAomAdEPPeXmuOLD2OjnNaq25wIMzcvasfwols5ZAsGTLx7ZBRZBFlh1lS8x2rIbaMZB28l9U1Bu8bZB7ZCgsUpNfYCZCQZC9UZC3CVoftfAHoe8zgZDZD"
+

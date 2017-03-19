@@ -85,12 +85,22 @@ def quick_reply(user_id, msg, replies):
     print(resp1.content)
 
 
+def handle_payload(user_id):
+
+
+
 @app.route('/', methods=['POST'])
 def handle_incoming_messages():
     data = request.json
     sender = data['entry'][0]['messaging'][0]['sender']['id']
     print "message working"
-    message = data['entry'][0]['messaging'][0]['message']['text']
+
+    if 'postback' in data['entry'][0]['messaging'][0]:
+        payload = data['entry'][0]['messaging'][0]['postback']['payload']
+        if payload == 'GET_STARTED_PAYLOAD':
+            message = payload
+    else:
+        message = data['entry'][0]['messaging'][0]['message']['text']
 
     # prepare API.ai request for text messages
     req = ai.text_request()
