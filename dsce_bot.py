@@ -85,8 +85,31 @@ def quick_reply(user_id, msg, replies):
     print(resp1.content)
 
 
+def handle_custom_payload(user_id, text, url):
+    data2 = {
+        "recipient": {
+            "id": user_id
+        },
+        "message": {
+            "attachment": {
+                "type": "template",
+                "payload": {
+                    "template_type": "button",
+                    "text": text,
+                    "buttons": [
+                        {
+                            "type": "web_url",
+                            "url": url,
+                            "title": "Show Website"
+                        }
+                    ]
+                }
+            }
+        }
 
-
+    }
+    resp2 = requests.post("https://graph.facebook.com/v2.6/me/messages?access_token=" + ACCESS_TOKEN, json=data2)
+    print(resp2.content)
 
 
 @app.route('/', methods=['POST'])
@@ -125,9 +148,13 @@ def handle_incoming_messages():
                 print "Working! WOOHOO!"
                 quick_reply(sender, title, replies)
             elif type1 == 4:
-                text = response_obj["result"]["fulfillment"]['messages'][1]['payload']['facebook']['attachment']['payload']['text']
-                url = response_obj["result"]["fulfillment"]['messages'][1]['payload']['facebook']['attachment']['payload']['buttons'][0]['url']
-                handle_custom_pa 
+                text = \
+                response_obj["result"]["fulfillment"]['messages'][1]['payload']['facebook']['attachment']['payload'][
+                    'text']
+                url = \
+                response_obj["result"]["fulfillment"]['messages'][1]['payload']['facebook']['attachment']['payload'][
+                    'buttons'][0]['url']
+                handle_custom_payload(sender, text, url)
 
         except:
             print "inside except block"
