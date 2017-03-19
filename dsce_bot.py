@@ -112,6 +112,32 @@ def handle_custom_payload(user_id, text, url):
     print(resp2.content)
 
 
+def handle_call_payload(usr_id):
+    data3 = {
+        "recipient": {
+            "id": usr_id
+        },
+        "message": {
+            "attachment": {
+                "type": "template",
+                "payload": {
+                    "template_type": "button",
+                    "text": "Need further assistance? Talk to a representative",
+                    "buttons": [
+                        {
+                            "type": "phone_number",
+                            "title": "Call Representative",
+                            "payload": "+919972971606"
+                        }
+                    ]
+                }
+            }
+        }
+    }
+    resp3 = requests.post("https://graph.facebook.com/v2.6/me/messages?access_token=" + ACCESS_TOKEN, json=data3)
+    print(resp3.content)
+
+
 @app.route('/', methods=['POST'])
 def handle_incoming_messages():
     data = request.json
@@ -150,10 +176,20 @@ def handle_incoming_messages():
                 print "Working! WOOHOO!"
                 quick_reply(sender, title, replies)
             elif type1 == 4:
-                text = response_obj["result"]["fulfillment"]['messages'][1]['payload']['facebook']['attachment']['payload']['text']
-                url = response_obj["result"]["fulfillment"]['messages'][1]['payload']['facebook']['attachment']['payload'][
-                    'buttons'][0]['url']
-                handle_custom_payload(sender, text, url)
+                button_type = \
+                response_obj["result"]["fulfillment"]['messages'][1]['payload']['facebook']['attachment']['payload'][
+                    'buttons'][0]['type']
+                if button_type == 'web_url':
+                    text = response_obj["result"]["fulfillment"]['messages'][1]['payload']['facebook']['attachment'][
+                        'payload']['text']
+                    url = response_obj["result"]["fulfillment"]['messages'][1]['payload']['facebook']['attachment'][
+                        'payload'][
+                        'buttons'][0]['url']
+                    handle_custom_payload(sender, text, url)
+                elif button_type == 'phone_number':
+                    text = response_obj["result"]["fulfillment"]['messages'][1]['payload']['facebook']['attachment'][
+                        'payload']['text']
+                    handle_call_postback(sender)
 
         except:
             print "inside except block"
