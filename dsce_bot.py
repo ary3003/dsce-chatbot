@@ -85,7 +85,7 @@ def quick_reply(user_id, msg, replies):
     print(resp1.content)
 
 
-def handle_custom_payload(user_id, text, url):
+def handle_custom_payload(user_id):
     data2 = {
         "recipient": {
             "id": user_id
@@ -95,11 +95,11 @@ def handle_custom_payload(user_id, text, url):
                 "type": "template",
                 "payload": {
                     "template_type": "button",
-                    "text": text,
+                    "text": "Select to visit website",
                     "buttons": [
                         {
                             "type": "web_url",
-                            "url": url,
+                            "url": "https://dayanandasagar.edu/dsce",
                             "title": "Show Website"
                         }
                     ]
@@ -176,19 +176,10 @@ def handle_incoming_messages():
                 print "Working! WOOHOO!"
                 quick_reply(sender, title, replies)
             elif type1 == 4:
-                button_type = \
-                response_obj["result"]["fulfillment"]['messages'][1]['payload']['facebook']['attachment']['payload'][
-                    'buttons'][0]['type']
+                button_type = response_obj["result"]["fulfillment"]['messages'][1]['payload']['facebook']['attachment']['payload']['buttons'][0]['type']
                 if button_type == 'web_url':
-                    text = response_obj["result"]["fulfillment"]['messages'][1]['payload']['facebook']['attachment'][
-                        'payload']['text']
-                    url = response_obj["result"]["fulfillment"]['messages'][1]['payload']['facebook']['attachment'][
-                        'payload'][
-                        'buttons'][0]['url']
-                    handle_custom_payload(sender, text, url)
+                    handle_custom_payload(sender)
                 elif button_type == 'phone_number':
-                    text = response_obj["result"]["fulfillment"]['messages'][1]['payload']['facebook']['attachment'][
-                        'payload']['text']
                     handle_call_postback(sender)
 
         except:
