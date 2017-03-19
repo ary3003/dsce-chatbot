@@ -124,6 +124,8 @@ def handle_incoming_messages():
             message = payload
         elif payload == 'help_payload':
             message = payload
+        elif payload == 'call_payload':
+            message = payload
     else:
         message = data['entry'][0]['messaging'][0]['message']['text']
 
@@ -148,11 +150,8 @@ def handle_incoming_messages():
                 print "Working! WOOHOO!"
                 quick_reply(sender, title, replies)
             elif type1 == 4:
-                text = \
-                response_obj["result"]["fulfillment"]['messages'][1]['payload']['facebook']['attachment']['payload'][
-                    'text']
-                url = \
-                response_obj["result"]["fulfillment"]['messages'][1]['payload']['facebook']['attachment']['payload'][
+                text = response_obj["result"]["fulfillment"]['messages'][1]['payload']['facebook']['attachment']['payload']['text']
+                url = response_obj["result"]["fulfillment"]['messages'][1]['payload']['facebook']['attachment']['payload'][
                     'buttons'][0]['url']
                 handle_custom_payload(sender, text, url)
 

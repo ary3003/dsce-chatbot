@@ -8,11 +8,6 @@ curl -X POST -H "Content-Type: application/json" -d '{
       "payload":"help_payload"
     },
     {
-	"type":"postback",
-	"title":"Call a Representative",
-	"payload":"call_payload"	
-    },
-    {
       "type":"web_url",
       "title":"View Website",
       "url":"http://dayanandasagar.edu/dsce/"
