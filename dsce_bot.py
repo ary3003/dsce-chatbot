@@ -99,6 +99,8 @@ def handle_incoming_messages():
         payload = data['entry'][0]['messaging'][0]['postback']['payload']
         if payload == 'GET_STARTED_PAYLOAD':
             message = payload
+        elif payload == 'help_payload':
+            message = payload
     else:
         message = data['entry'][0]['messaging'][0]['message']['text']
 
