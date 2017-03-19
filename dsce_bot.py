@@ -85,7 +85,7 @@ def quick_reply(user_id, msg, replies):
     print(resp1.content)
 
 
-def handle_payload(user_id):
+
 
 
 
