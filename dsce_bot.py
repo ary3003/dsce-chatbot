@@ -112,7 +112,7 @@ def handle_custom_payload(user_id):
     print(resp2.content)
 
 
-def handle_call_payload(usr_id):
+def handle_call_postback(usr_id):
     data3 = {
         "recipient": {
             "id": usr_id
@@ -179,7 +179,7 @@ def handle_incoming_messages():
                 button_type = response_obj["result"]["fulfillment"]['messages'][1]['payload']['facebook']['attachment']['payload']['buttons'][0]['type']
                 if button_type == 'web_url':
                     handle_custom_payload(sender)
-                else:
+                elif button_type == 'phone_number':
                     handle_call_postback(sender)
 
         except:
