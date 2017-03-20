@@ -31,7 +31,8 @@ def handle_get_started(user_id, name, msg, replies):
     data4 = {
         "recipient": {"id": user_id},
         "message": {
-            "text": "Welcome, "+ name + "!" + "\n" + msg,
+            "text": "Welcome, "+ name + "!" + "\n" + "At any point type 'help' to know everything I can help with you."
+                    + "\n" + msg,
             "quick_replies": [
                 {
                     "content_type": "text",
