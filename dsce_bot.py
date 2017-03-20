@@ -31,7 +31,7 @@ def handle_get_started(user_id, name, msg, replies):
     data4 = {
         "recipient": {"id": user_id},
         "message": {
-            "text": "Welcome "+ name + " " + msg,
+            "text": "Welcome, "+ name + "!" + "\n" + msg,
             "quick_replies": [
                 {
                     "content_type": "text",
@@ -166,7 +166,7 @@ def handle_incoming_messages():
     data = request.json
     sender = data['entry'][0]['messaging'][0]['sender']['id']
     name = user_details(sender)
-    print "user_details working. Name is : "+name
+    print "user_details working. Name is : " + name
 
     if 'postback' in data['entry'][0]['messaging'][0]:
         payload = data['entry'][0]['messaging'][0]['postback']['payload']
