@@ -167,7 +167,7 @@ def handle_incoming_messages():
     data = request.json
     sender = data['entry'][0]['messaging'][0]['sender']['id']
 
-    print "user_details working. Name is : " + name
+    print 'sender received'
 
     if 'postback' in data['entry'][0]['messaging'][0]:
         payload = data['entry'][0]['messaging'][0]['postback']['payload']
@@ -201,6 +201,7 @@ def handle_incoming_messages():
                 print "Working! WOOHOO!"
                 if message == 'GET_STARTED_PAYLOAD':
                     name = user_details(sender)
+                    print "user_details working. Name is : " + name
                     handle_get_started(sender, name, title, replies)
                 else:
                     quick_reply(sender, title, replies)
