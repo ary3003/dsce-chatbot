@@ -27,6 +27,29 @@ def handle_verification():
         return 'Error, wrong validation token'
 
 
+def handle_get_started(user_id, name, replies):
+    data4 = {
+        "recipient": {"id": user_id},
+        "message": {
+            "text": "Welcome "+ name + " " + msg,
+            "quick_replies": [
+                {
+                    "content_type": "text",
+                    "title": replies[0],
+                    "payload": "PAYLOAD1"
+                },
+                {
+                    "content_type": "text",
+                    "title": replies[1],
+                    "payload": "PAYLOAD2"
+                }
+            ]
+        }
+    }
+    resp4 = requests.post("https://graph.facebook.com/v2.6/me/messages?access_token=" + ACCESS_TOKEN, json=data4)
+    print(resp4.content)
+
+
 def reply(user_id, msg):
     data = {
         "recipient": {"id": user_id},
@@ -142,7 +165,8 @@ def handle_call_postback(usr_id):
 def handle_incoming_messages():
     data = request.json
     sender = data['entry'][0]['messaging'][0]['sender']['id']
-    print "message working"
+    name = user_details(sender)
+    print "user_details working"
 
     if 'postback' in data['entry'][0]['messaging'][0]:
         payload = data['entry'][0]['messaging'][0]['postback']['payload']
@@ -174,18 +198,33 @@ def handle_incoming_messages():
                 title = response_obj["result"]["fulfillment"]['messages'][1]["title"]
                 replies = response_obj["result"]["fulfillment"]['messages'][1]['replies']
                 print "Working! WOOHOO!"
+                if message == 'GET_STARTED_PAYLOAD':
+                    handle_get_started(sender, name, replies)
                 quick_reply(sender, title, replies)
             elif type1 == 4:
-                button_type = response_obj["result"]["fulfillment"]['messages'][1]['payload']['facebook']['attachment']['payload']['buttons'][0]['type']
+                button_type = \
+                    response_obj["result"]["fulfillment"]['messages'][1]['payload']['facebook']['attachment'][
+                        'payload'][
+                        'buttons'][0]['type']
                 if button_type == 'web_url':
                     handle_custom_payload(sender)
                 elif button_type == 'phone_number':
                     handle_call_postback(sender)
 
+
         except:
             print "inside except block"
             reply(sender, response)
     return "ok"
+
+
+# method for receiving user's first name
+def user_details(sender_id):
+    details = requests.get(
+        "https://graph.facebook.com/v2.6/" + sender_id + "?fields=first_name&access_token=" + ACCESS_TOKEN).content
+    json_name = json.loads(details)
+    user_name = json_name['first_name']
+    return user_name
 
 
 if __name__ == '__main__':
