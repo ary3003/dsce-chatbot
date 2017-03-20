@@ -27,7 +27,7 @@ def handle_verification():
         return 'Error, wrong validation token'
 
 
-def handle_get_started(user_id, name, replies):
+def handle_get_started(user_id, name, msg, replies):
     data4 = {
         "recipient": {"id": user_id},
         "message": {
@@ -199,8 +199,9 @@ def handle_incoming_messages():
                 replies = response_obj["result"]["fulfillment"]['messages'][1]['replies']
                 print "Working! WOOHOO!"
                 if message == 'GET_STARTED_PAYLOAD':
-                    handle_get_started(sender, name, replies)
-                quick_reply(sender, title, replies)
+                    handle_get_started(sender, name, title, replies)
+                else:
+                    quick_reply(sender, title, replies)
             elif type1 == 4:
                 button_type = \
                     response_obj["result"]["fulfillment"]['messages'][1]['payload']['facebook']['attachment'][
