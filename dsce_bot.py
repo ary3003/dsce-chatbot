@@ -5,8 +5,10 @@ import apiai
 import logging
 import sys
 
+# facebook page access token
 ACCESS_TOKEN = 'EAACVBMhfty8BAEnEn1RZAuJFD202uuERpIfD9alerlK97MflZAmg8jqRUwZA0tPlv0ZA4J3gAdUEDYZClniPDaOqMauefq2F2kHmXjxgfKLsvzys3ITy4rkNZCci8pJ8E72Cm0F1gmnstbJwPHeJ9ZBtEFd8xnilPFq5medOMHgMwZDZD'
 
+# api.ai client token
 CLIENT_ACCESS_TOKEN = 'e65e41471aeb417584138ea544ef3497'
 
 ai = apiai.ApiAI(CLIENT_ACCESS_TOKEN)
@@ -16,6 +18,7 @@ app.logger.addHandler(logging.StreamHandler(sys.stdout))
 app.logger.setLevel(logging.ERROR)
 
 
+# method for handling facebook verification
 @app.route('/', methods=['GET'])
 def handle_verification():
     print "Handling Verification."
@@ -27,11 +30,12 @@ def handle_verification():
         return 'Error, wrong validation token'
 
 
+# method for handling personalized get started payload
 def handle_get_started(user_id, name, msg, replies):
     data4 = {
         "recipient": {"id": user_id},
         "message": {
-            "text": "Welcome, "+ name + "!" + "\n" + "At any point type 'help' to know everything I can help you with."
+            "text": "Welcome, " + name + "!" + "\n" + "At any point type 'help' to know everything I can help you with."
                     + "\n" + msg,
             "quick_replies": [
                 {
@@ -51,6 +55,7 @@ def handle_get_started(user_id, name, msg, replies):
     print(resp4.content)
 
 
+# method for replying with normal text message
 def reply(user_id, msg):
     data = {
         "recipient": {"id": user_id},
@@ -60,6 +65,7 @@ def reply(user_id, msg):
     print(resp.content)
 
 
+# method for handling quick replies
 def quick_reply(user_id, msg, replies):
     if len(replies) == 2:
         data1 = {
@@ -109,6 +115,7 @@ def quick_reply(user_id, msg, replies):
     print(resp1.content)
 
 
+# method for handling custom payload received from api.ai
 def handle_custom_payload(user_id):
     data2 = {
         "recipient": {
@@ -136,6 +143,7 @@ def handle_custom_payload(user_id):
     print(resp2.content)
 
 
+# method for handling static call postback callback
 def handle_call_postback(usr_id):
     data3 = {
         "recipient": {
@@ -162,6 +170,7 @@ def handle_call_postback(usr_id):
     print(resp3.content)
 
 
+# method for replying to user
 @app.route('/', methods=['POST'])
 def handle_incoming_messages():
     data = request.json
